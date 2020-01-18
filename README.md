@@ -34,7 +34,7 @@ go build hello.go
 在命令行执行， `go run -n helloworld.go`
 
 ```text
-YDZ ~/LeetCode_Go/helloworld/src/me $  go run -n helloworld.go
+cjf ~/LeetCode_Go/helloworld/src/me $  go run -n helloworld.go
 
 #
 # command-line-arguments
