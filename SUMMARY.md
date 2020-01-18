@@ -1,4 +1,5 @@
 # Table of contents
 
-* [Initial page](README.md)
+* [go语言之旅](README.md)
+* [包package](bao-package.md)
 
