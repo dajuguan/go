@@ -55,13 +55,9 @@ $WORK/command-line-arguments/_obj/exe/helloworld
 * 执行compile命令
 * 然后链接生成归档文件`command-line-arguments.a` 和放在ext目录下的最终可执行文件helloworld
 
-总结一下，如下图  
+总结一下，如下图
 
 ![](.gitbook/assets/image.png)
 
-go run 命令在第二次执行的时候，如果发现导入的代码包没有发生变化，那么 go run 不会再次编译这个导入的代码包。直接静态链接进来。 
-
-
-
-
+go run 命令在第二次执行的时候，如果发现导入的代码包没有发生变化，那么 go run 不会再次编译这个导入的代码包。直接静态链接进来。
 
