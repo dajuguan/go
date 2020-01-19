@@ -5,5 +5,5 @@
 * [包package](2-bao-package.md)
 * [数组、字符串和切片](3-array-string-slice.md)
 * [函数](4-func.md)
-* [方法](5-method.md)
+* [方法与接口](5-method-interface.md)
 * [接口](6-interface.md)

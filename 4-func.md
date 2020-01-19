@@ -1,6 +1,5 @@
 # 函数
 
-# 函数
 函数对应操作序列，是程序的基本组成元素。在Go语言中函数是第一类对象，可以将函数保存在变量中。
 
 ## 函数声明
@@ -111,6 +110,7 @@ func Filter(slice []int, f test_isEven) []int{
    return res
 }
 
+### 柯里化
 //函数作为返回值，实现柯里化
 func curryAdd(int) func(int) int{
    var x int
