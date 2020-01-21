@@ -197,6 +197,8 @@ Go语言试图在安全和灵活的编程之间取得一个平衡，它在提供
 接口是抽象的类型。
 - 它不暴露它所代表的的对象的内部值或对象支持的操作等实现细节，对象更具灵活性和适应性；
 - 在使用第三方包时，为了不破坏这些类型的原有定义，可以创建新的接口类型满足已经存在的类型
+- 接口中的方法必须全部实现，才能实现接口
+- 任何提供了改接口实现代码的类型都隐式的实现了该接口，而不用显示声明
 
 举个例子，在游戏中每个人有枪和弓箭这两种武器，可以切换武器来进行射击，这个时候可以把武器作为一种接口类型，来进行设计：
 
@@ -458,6 +460,93 @@ type Plugin interface {
 ```
 
 generate.Plugin接口对应的grpcPlugin类型的GenerateImports方法中使用的p.P(...)函数却是通过Init函数注入的generator.Generator对象实现。这里的generator.Generator对应一个具体类型，但是如果generator.Generator是接口类型的话我们甚至可以传入直接的实现。
+
+# 嵌入与聚合
+
+在结构体中嵌入匿名的字段叫做，嵌入或内嵌；在结构体中的字段还包含类型名那么叫做，聚合。
+
+在c语言中只考虑结构体和接口中嵌入的组合方式，有以下三种
+
+## 在接口中嵌入接口
+
+```
+type Writer interface{
+    Write()
+}
+type Reader interface{
+    Read()
+}
+type Teacher interface{
+    Reader
+    Writer
+}
+```
+
+## 在结构体中嵌入结构体
+
+```
+type Human struct{
+    name string
+}
+type Writer interface{
+    Write()
+}
+type Reader interface{
+    Read()
+}
+type Teacher interface{
+    Reader
+    Writer
+    Human
+}
+```
+
+## 在结构体中嵌入接口
+
+```
+package main
+import "fmt"
+
+type Walker interface{
+   Walk()
+}
+
+type Men struct{
+   name string
+   Walker
+}
+
+type Women struct{
+   age int
+}
+
+func (m Men) Walk(){
+   fmt.Println(m.name, " is walking")
+}
+
+func (m Women) Walk(){
+   fmt.Println("A women aged", m.age,"is walking")
+}
+
+type Student struct{
+   Men
+   int
+}
+
+func main(){
+   //直接对接口赋0值
+   Bob := Men{name:"Bob"}
+   Bob.Walk()
+
+   //用实现了改接口的结构体对其赋值
+   Alice := Men{"Alice",Women{20} }
+   Alice.Walk()
+   Alice.Walker.Walk()
+}
+```
+
+可以看出直接调用Walk调用的是Men结构体自身的Walk方法，而不是其接口Walker的Walk方法
+
 
 Go语言通过几种简单特性的组合，就轻易就实现了鸭子面向对象和虚拟继承等高级特性，真的是不可思议。
 
