@@ -426,4 +426,4 @@ Ursula(0xe160672) >>> stop
 
 https://www.nucypher.com/incentivized-testnet/
 
-其中的ETH地址是上面生成的两个eth地址(采用)
+其中的ETH地址是上面生成的两个eth地址(采用标准的ETH格式，不是转换后的！)
