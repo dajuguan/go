@@ -9,3 +9,5 @@
 * [协程与通信](6-goroutine-channel.md)
 * [nucypher节点搭建](node.md)
 * [同步与锁](7-sync-mutex.md)
+* [常见并发模型](8-race.md)
+
