@@ -387,3 +387,5 @@ func main() {
 ```
 
 程序结束时，通过cancel来通知goroutine退出，这样就避免了goroutine的泄漏。
+
+

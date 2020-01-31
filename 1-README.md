@@ -1,4 +1,28 @@
-# go语言之旅
+# go 语言之旅
+
+# 安装
+
+## 安装 vscode 插件
+
+export GO111MODULE=on
+export GOPROXY=https://goproxy.cn
+
+Installing github.com/mdempsky/gocode SUCCEEDED
+Installing github.com/uudashr/gopkgs/cmd/gopkgs SUCCEEDED
+Installing github.com/ramya-rao-a/go-outline SUCCEEDED
+Installing github.com/acroca/go-symbols SUCCEEDED
+Installing golang.org/x/tools/cmd/guru SUCCEEDED
+Installing golang.org/x/tools/cmd/gorename SUCCEEDED
+Installing github.com/cweill/gotests/... SUCCEEDED
+Installing github.com/fatih/gomodifytags SUCCEEDED
+Installing github.com/josharian/impl SUCCEEDED
+Installing github.com/davidrjenni/reftools/cmd/fillstruct SUCCEEDED
+Installing github.com/haya14busa/goplay/cmd/goplay SUCCEEDED
+Installing github.com/godoctor/godoctor SUCCEEDED
+Installing github.com/go-delve/delve/cmd/dlv SUCCEEDED
+Installing github.com/stamblerre/gocode FAILED
+Installing github.com/rogpeppe/godef FAILED
+Installing golang.org/x/lint/golint FAILED
 
 ## Hello world
 
@@ -11,17 +35,17 @@ func main() {
 }
 ```
 
-由上面一个简单的程序可见，Go程序的基础组成有一下几个部分组成
+由上面一个简单的程序可见，Go 程序的基础组成有一下几个部分组成
 
-* 包声明
-* 引入包
-* 函数
-* 语句&表达式
-* 注释
+- 包声明
+- 引入包
+- 函数
+- 语句&表达式
+- 注释
 
-## 执行Go程序
+## 执行 Go 程序
 
-将上面的代码保存为hello.go, 然后再命令行输入
+将上面的代码保存为 hello.go, 然后再命令行输入
 
 ```text
 go build hello.go
@@ -49,15 +73,14 @@ cd .
 $WORK/command-line-arguments/_obj/exe/helloworld
 ```
 
-可以发现它其实干了5件事情
+可以发现它其实干了 5 件事情
 
-* 建立两个临时文件夹\_obj和exe
-* 执行compile命令
-* 然后链接生成归档文件`command-line-arguments.a` 和放在ext目录下的最终可执行文件helloworld
+- 建立两个临时文件夹\_obj 和 exe
+- 执行 compile 命令
+- 然后链接生成归档文件`command-line-arguments.a` 和放在 ext 目录下的最终可执行文件 helloworld
 
 总结一下，如下图
 
 ![](.gitbook/assets/image.png)
 
 go run 命令在第二次执行的时候，如果发现导入的代码包没有发生变化，那么 go run 不会再次编译这个导入的代码包。直接静态链接进来。
-
