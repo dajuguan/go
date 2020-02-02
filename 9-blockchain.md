@@ -6,3 +6,9 @@ go run main.go getbalance -address alice
 go run main.go send -from "alice" -to "bob" -amount 50
 go run main.go getbalance -address bob
 ```
+
+钱包
+```
+go run main.go createwallet
+go run main.go listaddrs
+```

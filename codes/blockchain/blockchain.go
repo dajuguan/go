@@ -155,6 +155,7 @@ func (chain *BlockChain) FindUnspentTransactions(address string) []Transaction {
 			for outIdx, out := range tx.Outputs {
 				if spentTXOs[txID] != nil {
 					for _, spentOut := range spentTXOs[txID] {
+						//交易单里面有一个输出的ID对应上，那么就不用查询了
 						if spentOut == outIdx {
 							continue Outputs
 						}

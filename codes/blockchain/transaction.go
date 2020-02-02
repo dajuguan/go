@@ -14,17 +14,6 @@ type Transaction struct {
 	Outputs []TxOutput
 }
 
-type TxOutput struct {
-	Value  int
-	Pubkey string
-}
-
-type TxInput struct {
-	ID  []byte //关键的交易
-	Out int    //关联输出的index
-	Sig string
-}
-
 //Coinbase交易
 func CoinbaseTx(to, data string) *Transaction {
 	if data == "" {
@@ -53,14 +42,6 @@ func (tx *Transaction) SetID() {
 
 func (tx *Transaction) IsCoinbase() bool {
 	return len(tx.Outputs) == 1 && len(tx.Inputs[0].ID) == 0 && tx.Inputs[0].Out == -1
-}
-
-func (in *TxInput) CanUnlock(data string) bool {
-	return in.Sig == data
-}
-
-func (out *TxOutput) CanBeUnlocked(data string) bool {
-	return out.Pubkey == data
 }
 
 func NewTransaction(from, to string, amount int, chain *BlockChain) *Transaction {
