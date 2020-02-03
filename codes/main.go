@@ -9,7 +9,5 @@ import (
 func main() {
 	defer os.Exit(0)
 	cli := cli.CommandLine{}
-	// w := wallet.MakeWallet()
-	// w.Address()
 	cli.Run()
 }

@@ -35,6 +35,10 @@ func (w Wallet) Address() []byte {
 	return address
 }
 
+func ValidateAddress(addr string) bool {
+	return true
+}
+
 func NewKeyPair() (ecdsa.PrivateKey, []byte) {
 	curve := elliptic.P256()
 	private, err := ecdsa.GenerateKey(curve, rand.Reader)

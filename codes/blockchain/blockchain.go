@@ -1,7 +1,10 @@
 package blockchain
 
 import (
+	"bytes"
+	"crypto/ecdsa"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"os"
 	"runtime"
@@ -26,7 +29,7 @@ type BlockChainIterator struct {
 	Database    *badger.DB
 }
 
-func (chain *BlockChain) AddBlock(txs []*Transaction) {
+func (chain *BlockChain) AddBlock(txs []*Transaction) *Block {
 	// prevBlock := chain.Blocks[len(chain.Blocks)-1]
 	// newBlock := CreateBlock(data, prevBlock.Hash)
 	// chain.Blocks = append(chain.Blocks, newBlock)
@@ -53,6 +56,7 @@ func (chain *BlockChain) AddBlock(txs []*Transaction) {
 		return err
 	})
 	Handle(err)
+	return newBlock
 }
 
 //从创世区块生成区块链
@@ -141,8 +145,9 @@ func DBexists() bool {
 	return true
 }
 
-func (chain *BlockChain) FindUnspentTransactions(address string) []Transaction {
-	var unspentTxs []Transaction
+//查找所有的UTXO
+func (chain *BlockChain) FindUTXO() map[string]TxOutputs {
+	UTXO := make(map[string]TxOutputs)
 	spentTXOs := make(map[string][]int)
 	iter := chain.Iterator()
 
@@ -161,18 +166,16 @@ func (chain *BlockChain) FindUnspentTransactions(address string) []Transaction {
 						}
 					}
 				}
-				if out.CanBeUnlocked(address) {
-					unspentTxs = append(unspentTxs, *tx)
-				}
+				outs := UTXO[txID]
+				outs.Outputs = append(outs.Outputs, out)
+				UTXO[txID] = outs
 			}
 
 			//记录花费过的输入
 			if tx.IsCoinbase() == false {
 				for _, in := range tx.Inputs {
-					if in.CanUnlock(address) {
-						inTxID := hex.EncodeToString(in.ID)
-						spentTXOs[inTxID] = append(spentTXOs[inTxID], in.Out)
-					}
+					inTxID := hex.EncodeToString(in.ID)
+					spentTXOs[inTxID] = append(spentTXOs[inTxID], in.Out)
 				}
 			}
 		}
@@ -181,40 +184,41 @@ func (chain *BlockChain) FindUnspentTransactions(address string) []Transaction {
 		}
 	}
 
-	return unspentTxs
+	return UTXO
 }
 
-func (chain *BlockChain) FindUTXO(address string) []TxOutput {
-	var UTXOs []TxOutput
-	unspentTxs := chain.FindUnspentTransactions(address)
-
-	for _, tx := range unspentTxs {
-		for _, out := range tx.Outputs {
-			if out.CanBeUnlocked(address) {
-				UTXOs = append(UTXOs, out)
+func (bc *BlockChain) FindTransaction(ID []byte) (Transaction, error) {
+	iter := bc.Iterator()
+	for {
+		block := iter.Next()
+		for _, tx := range block.Transactions {
+			if bytes.Compare(tx.ID, ID) == 0 {
+				return *tx, nil
 			}
 		}
+		if len(block.PrevHash) == 0 {
+			break
+		}
 	}
-	return UTXOs
+	return Transaction{}, errors.New("交易不存在")
 }
 
-func (chain *BlockChain) FindSpendableOutputs(address string, amount int) (int, map[string][]int) {
-	utxos := make(map[string][]int)
-	unspentTxs := chain.FindUnspentTransactions(address)
-	total := 0
-
-Work:
-	for _, tx := range unspentTxs {
-		txID := hex.EncodeToString(tx.ID)
-		for outIdx, out := range tx.Outputs {
-			if out.CanBeUnlocked(address) && total < amount {
-				total += out.Value
-				utxos[txID] = append(utxos[txID], outIdx)
-				if total >= amount {
-					break Work
-				}
-			}
-		}
+func (bc *BlockChain) SignTransaction(tx *Transaction, privKey ecdsa.PrivateKey) {
+	prevTxs := make(map[string]Transaction)
+	for _, in := range tx.Inputs {
+		prevTX, err := bc.FindTransaction(in.ID)
+		Handle(err)
+		prevTxs[hex.EncodeToString(prevTX.ID)] = prevTX
 	}
-	return total, utxos
+	tx.Sign(privKey, prevTxs)
+}
+
+func (bc *BlockChain) VerifyTransaction(tx *Transaction) bool {
+	prevTxs := make(map[string]Transaction)
+	for _, in := range tx.Inputs {
+		prevTX, err := bc.FindTransaction(in.ID)
+		Handle(err)
+		prevTxs[hex.EncodeToString(prevTX.ID)] = prevTX
+	}
+	return tx.Verify(prevTxs)
 }
