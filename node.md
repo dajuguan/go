@@ -427,3 +427,8 @@ Ursula(0xe160672) >>> stop
 https://www.nucypher.com/incentivized-testnet/
 
 其中的ETH地址是上面生成的两个eth地址(采用标准的ETH格式，不是转换后的！)
+
+# 14.metamask引用
+
+keystore目录:/home/centos/.ethereum/goerli/keystore
+https://www.stake-nucypher.com/

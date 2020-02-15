@@ -25,7 +25,10 @@ type Transaction struct {
 //Coinbase交易
 func CoinbaseTx(to, data string) *Transaction {
 	if data == "" {
-
+		randData := make([]byte, 24)
+		_, err := rand.Read(randData)
+		Handle(err)
+		data = fmt.Sprintf("%x", randData)
 	}
 
 	txin := TxInput{[]byte{}, -1, nil, []byte(data)}
@@ -134,14 +137,12 @@ func (tx *Transaction) Verify(prevTxs map[string]Transaction) bool {
 
 }
 
-func NewTransaction(from, to string, amount int, UTXO *UTXOSet) *Transaction {
+func NewTransaction(w *wallet.Wallet, to string, amount int, UTXO *UTXOSet) *Transaction {
 	var inputs []TxInput
 	var outputs []TxOutput
 
 	//接入钱包
-	wallets, err := wallet.CreateWallets()
-	Handle(err)
-	w := wallets.GetWallet(from)
+
 	pubKeyHash := wallet.PublicKeyHash(w.PublicKey)
 
 	total, validOutputs := UTXO.FindSpendableOutputs(pubKeyHash, amount)
@@ -158,9 +159,11 @@ func NewTransaction(from, to string, amount int, UTXO *UTXOSet) *Transaction {
 	}
 
 	outputs = append(outputs, *NewTxOutput(amount, to))
+
 	if total > amount {
-		outputs = append(outputs, *NewTxOutput(total-amount, from))
+		outputs = append(outputs, *NewTxOutput(total-amount, string(w.Address())))
 	}
+
 	tx := Transaction{nil, inputs, outputs}
 	//传入Hash
 	tx.ID = tx.Hash()
@@ -168,6 +171,16 @@ func NewTransaction(from, to string, amount int, UTXO *UTXOSet) *Transaction {
 	UTXO.BC.SignTransaction(&tx, w.PrivateKey)
 
 	return &tx
+}
+
+func DeserializeTransaction(data []byte) Transaction {
+	var tx Transaction
+	decoder := gob.NewDecoder(bytes.NewReader(data))
+	err := decoder.Decode(tx)
+	if err != nil {
+		Handle(err)
+	}
+	return tx
 }
 
 func (tx Transaction) Serialize() []byte {
