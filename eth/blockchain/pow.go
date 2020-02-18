@@ -61,3 +61,13 @@ func (pow *Pow) run() (int, []byte) {
 	fmt.Println()
 	return nonce, hash[:]
 }
+
+//验证是否满足难度条件
+func ValidatePow(b *Block) bool {
+	pow := NewPow(b)
+	data := pow.InitData(b.Nonce)
+	hash := sha256.Sum256(data)
+	var hashInt big.Int
+	hashInt.SetBytes(hash[:])
+	return hashInt.Cmp(pow.Target) == -1
+}
