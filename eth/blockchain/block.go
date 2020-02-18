@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-const DIFFICULTY = 24
+const DIFFICULTY = 14
 
 type Block struct {
 	Hash        []byte
