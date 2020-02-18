@@ -1,4 +1,4 @@
-module github.com/dajuguan/go
+module github.com/dajuguan/go/codes
 
 go 1.13
 
