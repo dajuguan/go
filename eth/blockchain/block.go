@@ -9,16 +9,16 @@ import (
 const DIFFICULTY = 14
 
 type Block struct {
-	Hash        []byte
-	ParentHash  []byte
-	StateRoot   []byte
-	TxRoot      []byte
-	ReceiptRoot []byte
-	Difficulty  int
-	Timestamp   int64
-	Height      int
-	// Transactions []*Transaction
-	Nonce int
+	Hash         []byte
+	ParentHash   []byte
+	StateRoot    []byte
+	TxRoot       []byte
+	ReceiptRoot  []byte
+	Difficulty   int
+	Timestamp    int64
+	Height       int
+	Transactions []*Transaction
+	Nonce        int
 }
 
 func CreateBlock(parentHash, stateRoot, txRoot, receiptRoot []byte, diff, height int) *Block {

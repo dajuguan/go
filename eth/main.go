@@ -12,5 +12,5 @@ func main() {
 	genesis := chain.Blocks[0]
 	firstBlock := blockchain.CreateBlock(genesis.Hash, []byte{}, []byte{}, []byte{}, blockchain.DIFFICULTY, 1)
 	chain.AddBlock(firstBlock)
-	fmt.Println(chain)
+	fmt.Println(chain.Blocks[1])
 }
