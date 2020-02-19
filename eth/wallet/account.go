@@ -12,16 +12,16 @@ import (
 )
 
 const (
+	version        = byte(0x0000)
 	checksumLength = 4
-	version        = byte(0x00)
 )
 
-type Wallet struct {
-	PrivateKey ecdsa.PrivateKey
+type Account struct {
 	PublicKey  []byte
+	PrivateKey ecdsa.PrivateKey
 }
 
-func (w Wallet) Address() []byte {
+func (w Account) Address() []byte {
 	pubHash := PublicKeyHash(w.PublicKey)
 	versionedHash := append([]byte{version}, pubHash...)
 	checksum := CheckSum(versionedHash)
@@ -33,25 +33,6 @@ func (w Wallet) Address() []byte {
 	fmt.Printf("checksum is :%x\n", checksum)
 	fmt.Printf("address is %x\n", address)
 	return address
-}
-
-func ValidateAddress(addr string) bool {
-	return true
-}
-
-func NewKeyPair() (ecdsa.PrivateKey, []byte) {
-	curve := elliptic.P256()
-	private, err := ecdsa.GenerateKey(curve, rand.Reader)
-	if err != nil {
-		log.Panic(err)
-	}
-	pub := append(private.PublicKey.X.Bytes(), private.PublicKey.Y.Bytes()...)
-	return *private, pub
-}
-
-func MakeWallet() *Wallet {
-	private, public := NewKeyPair()
-	return &Wallet{private, public}
 }
 
 func PublicKeyHash(publickey []byte) []byte {
@@ -70,4 +51,19 @@ func CheckSum(payload []byte) []byte {
 	firstHash := sha256.Sum256(payload)
 	secondHash := sha256.Sum256(firstHash[:])
 	return secondHash[:checksumLength]
+}
+
+func NewKeyPair() (ecdsa.PrivateKey, []byte) {
+	curve := elliptic.P256()
+	private, err := ecdsa.GenerateKey(curve, rand.Reader)
+	if err != nil {
+		log.Panic(err)
+	}
+	pub := append(private.PublicKey.X.Bytes(), private.PublicKey.Y.Bytes()...)
+	return *private, pub
+}
+
+func NewAccount() *Account {
+	privateKey, publicKey := NewKeyPair()
+	return &Account{publicKey, privateKey}
 }
