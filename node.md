@@ -343,7 +343,28 @@ To run an Ursula node from the default configuration filepath run:
 ```
 
 ### 运行ursula
+```
+sudo touch /etc/systemd/system/ursula.service
+sudo chomd 777 /etc/systemd/system/ursula.service
+```
+[Unit]
+Description="Run 'Ursula', a NuCypher Staking Node."
 
+[Service]
+User=<YOUR USER>
+Type=simple
+Environment="NUCYPHER_WORKER_ETH_PASSWORD=<YOUR WORKER ADDRESS PASSWORD>"
+Environment="NUCYPHER_KEYRING_PASSWORD=<YOUR PASSWORD>"
+ExecStart=<VIRTUALENV PATH>/bin/nucypher ursula run
+
+[Install]
+WantedBy=multi-user.target
+
+```
+sudo systemctl enable ursula
+sudo systemctl start ursula
+sudo systemctl status ursula
+sudo systemctl restart ursula
 ```
 nucypher ursula run --interactive
 ```
@@ -432,3 +453,32 @@ https://www.nucypher.com/incentivized-testnet/
 
 keystore目录:/home/centos/.ethereum/goerli/keystore
 https://www.stake-nucypher.com/
+
+# 15.Checknode status
+
+nucypher status stakers --provider ~/.ethereum/goerli/geth.ipc --network cassandra --staking-address 0xe160672ef1afDc798F869F79d40E0AA963BfaC15
+
+# 16.Phase5
+
+## 
+nucypher worklock bid --network cassandra --provider ~/.ethereum/goerli/geth.ipc --poa
+
+```
+Select index of account [0]: 4
+Selected 4: 0x6d2F414CA2B81811435F1769d38b43663e7c1213
+Enter bid amount in ETH: 6
+Reading Latest Chaindata...
+Enter password to unlock account 0x6d2F414CA2B81811435F1769d38b43663e7c1213:
+
+...
+Publishing WorkLock Bid...
+Current bid: 6 ETH | Available claim: 372673.67938246869210769 NU
+Note that available claim value may fluctuate until bidding closes and claims are finalized.
+
+OK | 0x59a11c797df40b848bbef6c57b692026e727ee2e5c2c37a2c4c3da8f7643cf4e (51207 gas)
+Block #2214635 | 0x273b19131ec9dbf49b632019f4c7082ed9a96d906f93d06f9a0ebcfc21f080fa
+ See https://goerli.etherscan.io/tx/0x59a11c797df40b848bbef6c57b692026e727ee2e5c2c37a2c4c3da8f7643cf4e
+```
+nucypher worklock cancel-bid --network cassandra --provider ~/.ethereum/goerli/geth.ipc --poa 
+
+nucypher worklock status --bidder-address 0x6d2F414CA2B81811435F1769d38b43663e7c1213 --network cassandra --provider ~/.ethereum/goerli/geth.ipc --poa
