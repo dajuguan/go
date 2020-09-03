@@ -1,7 +1,7 @@
 # Table of contents
 
-* [Introduction](README.md)
-* [go语言之旅](1-README.md)
+* [Go开发指南](README.md)
+* [go语言之旅](1-readme.md)
 * [包package](2-bao-package.md)
 * [数组、字符串和切片](3-array-string-slice.md)
 * [函数](4-func.md)

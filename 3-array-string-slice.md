@@ -99,7 +99,7 @@ func main() {
 
 可以看下字符串“Hello, world"本身对应的内存结构
 
-![&#x5B57;&#x7B26;&#x4E32;&#x5185;&#x5B58;&#x7ED3;&#x6784;](.gitbook/assets/zi-fu-chuan-nei-cun-zu-zhi.png)
+![&#x5B57;&#x7B26;&#x4E32;&#x5185;&#x5B58;&#x7ED3;&#x6784;](.gitbook/assets/字符串内存组织.png)
 
 可以发现，"Hello, world"的底层数据和以下数组是一样的:
 
@@ -179,7 +179,7 @@ type SliceHeader struct{
 
 下图是`x := []int{2,3,5,7,11} 和 y := x[1:3]`两个切片对应的内存结构。
 
-![&#x5207;&#x7247;&#x7684;&#x5185;&#x5B58;&#x7ED3;&#x6784;](.gitbook/assets/qie-pian-de-nei-cun-jie-gou.png)
+![&#x5207;&#x7247;&#x7684;&#x5185;&#x5B58;&#x7ED3;&#x6784;](.gitbook/assets/切片的内存结构.png)
 
 ### 定义
 

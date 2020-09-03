@@ -2,7 +2,7 @@
 
 在Go语言中，所有的程序语言都会被组织称若干个文件，每组文件成文一个包。每个包是最小的复用单元，供其他项目引用。我们看下标准库os的包的组织： 
 
-![os&#x76EE;&#x5F55;&#x7EC4;&#x7EC7;](.gitbook/assets/os-mu-lu-zu-zhi.png)
+![os&#x76EE;&#x5F55;&#x7EC4;&#x7EC7;](.gitbook/assets/os目录组织.png)
 
 这个目录包含一些列的文件夹和以.go为拓展名的文件。
 

@@ -1,20 +1,22 @@
-# 相关计划
+# nucypher节点搭建
 
-1.阶段1任务 https://blog.nucypher.com/casi-phase-1-tasks/
+## 相关计划
 
+1.阶段1任务 [https://blog.nucypher.com/casi-phase-1-tasks/](https://blog.nucypher.com/casi-phase-1-tasks/)
 
-# 1. 在Centos上利用源文件编译的方式安装python3.7和pip：
+## 1. 在Centos上利用源文件编译的方式安装python3.7和pip：
+
 sudo yum update
 
 sudo yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make libffi-devel epel-release wget
 
-wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+wget [https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz](https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz)
 
 tar -zxvf Python-3.7.0.tgz
 
 cd Python-3.7.0
 
-yum groupinstall "Development Tools”  
+yum groupinstall "Development Tools”
 
 ./configure prefix=/usr/local/python3 --with-ssl
 
@@ -26,18 +28,19 @@ sudo ln -sf /usr/local/python3/bin/pip3.7 /usr/bin/pip3
 
 sudo pip3 install --upgrade pip
 
-# 2、安装virtualenv
+## 2、安装virtualenv
 
 pip3 install --user virtualen
 
-将~/.local/bin增加到~/.bash_profile文件中
+将~/.local/bin增加到~/.bash\_profile文件中
 
-source ~/.bash_profile
+source ~/.bash\_profile
 
-# 3、安装nucypher
+## 3、安装nucypher
+
 sudo yum install -y libffi-dev python3-dev python3-virtualenv
 
-cd ~ | virtualenv nucypher-venv
+cd ~ \| virtualenv nucypher-venv
 
 source ~/nucypher-venv/bin/activate
 
@@ -47,10 +50,11 @@ nucypher –help
 
 deactivate
 
-# 4、安装以太客户端Geth
-登陆到网页 https://geth.ethereum.org/downloads/ ，查找下载链接进行下载，当前是Geth 1.9.10版本：
+## 4、安装以太客户端Geth
 
-wget https://gethstore.blob.core.windows.net/builds/geth-linux-amd64-1.9.10-58cf5686.tar.gz
+登陆到网页 [https://geth.ethereum.org/downloads/](https://geth.ethereum.org/downloads/) ，查找下载链接进行下载，当前是Geth 1.9.10版本：
+
+wget [https://gethstore.blob.core.windows.net/builds/geth-linux-amd64-1.9.10-58cf5686.tar.gz](https://gethstore.blob.core.windows.net/builds/geth-linux-amd64-1.9.10-58cf5686.tar.gz)
 
 tar xf geth-linux-amd64-1.9.10-58cf5686.tar.gz
 
@@ -58,23 +62,25 @@ mv geth-linux-amd64-1.9.10-58cf5686/geth ./
 
 rm geth-linux-amd64-1.9.10-58cf5686.tar.gz
 
+## 5.启动Eth全节点并创建账户
 
-# 5.启动Eth全节点并创建账户
-## 1、使用fast模式快速同步ETH Goerli测试网全节点，并在后台运行：
-```
+### 1、使用fast模式快速同步ETH Goerli测试网全节点，并在后台运行：
+
+```text
 nohup ~/geth --goerli >>gelori.txt 2>&1 &
 ```
 
-## 2、查看以太节点同步状态
-```
+### 2、查看以太节点同步状态
+
+```text
 ~/geth attach ~/.ethereum/goerli/geth.ipc
 ```
 
-![eth节点同步情况](/.gitbook/assets/nucypher/同步情况.png)
+![eth&#x8282;&#x70B9;&#x540C;&#x6B65;&#x60C5;&#x51B5;](.gitbook/assets/同步情况.png)
 
 当输入eth.syncing时，结果为false表示同步完成，同步过程需要30～60分钟，如下图
 
-```
+```text
 Welcome to the Geth JavaScript console!
 
 instance: Geth/v1.9.10-stable-58cf5686/linux-amd64/go1.13.6
@@ -89,9 +95,9 @@ false
 >
 ```
 
-# 6.生成NU官方的ETH地址格式
+## 6.生成NU官方的ETH地址格式
 
-```
+```text
 > eth.accounts
 []
 > personal.newAccount()
@@ -104,16 +110,17 @@ Repeat password:
 > exit
 ```
 
-# 7.向官方机器人要测试币
+## 7.向官方机器人要测试币
 
-注意账号需要提交上面web3.toChecksumAddress(eth.accounts[0])输出的地址
+注意账号需要提交上面web3.toChecksumAddress\(eth.accounts\[0\]\)输出的地址
 
-![NU测试币](/.gitbook/assets/nucypher/nucypher-测试币.png)
+![NU&#x6D4B;&#x8BD5;&#x5E01;](.gitbook/assets/nucypher-测试币.png)
 
-# 8.启动stakeholder
+## 8.启动stakeholder
+
 nucypher stake init-stakeholder --provider ~/.ethereum/goerli/geth.ipc --network cassandra
 
-```
+```text
  ____    __            __
 /\  _`\ /\ \__        /\ \
 \ \,\L\_\ \ ,_\    __ \ \ \/'\      __   _ __
@@ -127,8 +134,9 @@ The Holder of Stakes.
 Wrote new stakeholder configuration to /home/centos/.local/share/nucypher/stakeholder.json
 ```
 
-# 9.启动新的stake
-```
+## 9.启动新的stake
+
+```text
  ____    __            __
 /\  _`\ /\ \__        /\ \
 \ \,\L\_\ \ ,_\    __ \ \ \/'\      __   _ __
@@ -199,17 +207,19 @@ or set your Ursula worker node address by running 'nucypher stake set-worker'.
 
 See https://docs.nucypher.com/en/latest/guides/staking_guide.html
 ```
-## 如果没有提前要币会出现下列报错
-```
+
+### 如果没有提前要币会出现下列报错
+
+```text
 nucypher.blockchain.eth.actors.InsufficientTokens: Insufficient token balance (NucypherTokenAgent(registry=InMemoryContractRegistry(id=c2e47a), contract=NuCypherToken)) for new stake initialization of 15000 NU
 Sentry is attempting to send 0 pending error messages
 Waiting up to 2.0 seconds
 Press Ctrl-C to quit
 ```
 
-# 10.查看现有stakes
+## 10.查看现有stakes
 
-```
+```text
  ____    __            __
 /\  _`\ /\ \__        /\ \
 \ \,\L\_\ \ ,_\    __ \ \ \/'\      __   _ __
@@ -227,14 +237,17 @@ The Holder of Stakes.
 | 0 | 0xe160 | 0x0000 | 0 | 15000 NU | 30 periods . | Jan 22 00:00 UTC - Feb 21 00:00 UTC
 ```
 
-# 11.添加worker
-首先按照[生成NU官方的ETH地址格式](#6.生成NU官方的ETH地址格式)，生成一个新的eth账号
+## 11.添加worker
 
-```
+首先按照[生成NU官方的ETH地址格式](node.md#6.生成NU官方的ETH地址格式)，生成一个新的eth账号
+
+```text
 nucypher stake set-worker
 ```
+
 输出：
-```
+
+```text
  ____    __            __
 /\  _`\ /\ \__        /\ \
 \ \,\L\_\ \ ,_\    __ \ \ \/'\      __   _ __
@@ -263,12 +276,16 @@ Block #2037750 | 0xfa7f8db748fa4a52898a41db0ae037635272e02f99bde9eb2021192cc1847
 Bonded at period #18282 (2020-01-21 08:40:07.008259+00:00)
 This worker can be replaced or detached after period #18284 (2020-01-23 00:00:00+00:00)
 ```
+
 此时查看stakelist，发现worker不再是0000了
-```
+
+```text
 nucypher stake list
 ```
+
 输出：
-```
+
+```text
 The Holder of Stakes.
 
 ======================================= Active Stakes =========================================
@@ -278,19 +295,21 @@ The Holder of Stakes.
 | 0 | 0xe160 | 0x7B6B | 0 | 15000 NU | 30 periods . | Jan 22 00:00 UTC - Feb 21 00:00 UTC
 ```
 
-# 12.配置Ursha
+## 12.配置Ursha
 
-## 申请eth的Gorli测试网币
-```
+### 申请eth的Gorli测试网币
+
+```text
 geth attach ~/.ethereum/goerli/geth.ipc
 > personal.newAccount();
 > eth.accounts[1]
 ["0xc080708026a3a280894365efd51bb64521c45147"]
 The new account is 0xc080708026a3a280894365efd51bb64521c45147 in this case.
 ```
-然后转到 https://goerli-faucet.slock.it/
-去申请,不申请的话后面一步会报错：
-```
+
+然后转到 [https://goerli-faucet.slock.it/](https://goerli-faucet.slock.it/) 去申请,不申请的话后面一步会报错：
+
+```text
     txhash = self.client.send_raw_transaction(signed_raw_transaction)
   File "/home/centos/nucypher-venv/lib/python3.7/site-packages/nucypher/blockchain/eth/clients.py", line 235, in send_raw_transaction
     return self.w3.eth.sendRawTransaction(raw_transaction=transaction)
@@ -301,13 +320,15 @@ The new account is 0xc080708026a3a280894365efd51bb64521c45147 in this case.
 builtins.ValueError: {'code': -32000, 'message': 'insufficient funds for gas * price + value'}
 ```
 
-## 使用CLI运行Ursula
+### 使用CLI运行Ursula
 
-```
+```text
 nucypher ursula init --provider ~/.ethereum/goerli/geth.ipc --poa --staker-address 0xe160672ef1afDc798F869F79d40E0AA963BfaC15 --network cassandra
 ```
+
 输出:
-```
+
+```text
  ,ggg,         gg
 dP""Y8a        88                                   ,dPYb,
 Yb, `88        88                                   IP'`Yb
@@ -342,107 +363,64 @@ To run an Ursula node from the default configuration filepath run:
 'nucypher ursula run'
 ```
 
-### 运行ursula
-```
+#### 运行ursula
+
+```text
 sudo touch /etc/systemd/system/ursula.service
 sudo chomd 777 /etc/systemd/system/ursula.service
 ```
-[Unit]
-Description="Run 'Ursula', a NuCypher Staking Node."
 
-[Service]
-User=<YOUR USER>
-Type=simple
-Environment="NUCYPHER_WORKER_ETH_PASSWORD=<YOUR WORKER ADDRESS PASSWORD>"
-Environment="NUCYPHER_KEYRING_PASSWORD=<YOUR PASSWORD>"
-ExecStart=<VIRTUALENV PATH>/bin/nucypher ursula run
+\[Unit\] Description="Run 'Ursula', a NuCypher Staking Node."
 
-[Install]
-WantedBy=multi-user.target
+\[Service\] User= Type=simple Environment="NUCYPHER\_WORKER\_ETH\_PASSWORD=" Environment="NUCYPHER\_KEYRING\_PASSWORD=" ExecStart=/bin/nucypher ursula run
 
-```
+\[Install\] WantedBy=multi-user.target
+
+```text
 sudo systemctl enable ursula
 sudo systemctl start ursula
 sudo systemctl status ursula
 sudo systemctl restart ursula
 ```
+
 nucypher ursula run --interactive
-```
+
+```text
 成功后显示：
 ```
 
-Enter password to unlock account 0x7B6BCC437e0D4B7f857E48364Ec098B2A53001f2:
-Enter NuCypher keyring password:
-Decrypting NuCypher keyring...
-Connecting to preferred teacher nodes...
-Starting Ursula on 13.229.53.90:9151
-Connecting to cassandra
-Working ~ Keep Ursula Online!
-Attached 0xe160672ef1afDc798F869F79d40E0AA963BfaC15@13.229.53.90:9151
-♄ ⛇ | SlateGray Saturn Cyan Snowman
+Enter password to unlock account 0x7B6BCC437e0D4B7f857E48364Ec098B2A53001f2: Enter NuCypher keyring password: Decrypting NuCypher keyring... Connecting to preferred teacher nodes... Starting Ursula on 13.229.53.90:9151 Connecting to cassandra Working ~ Keep Ursula Online! Attached 0xe160672ef1afDc798F869F79d40E0AA963BfaC15@13.229.53.90:9151 ♄ ⛇ \| SlateGray Saturn Cyan Snowman
 
+Type 'help' or '?' for help Ursula\(0xe160672\) &gt;&gt;&gt;
 
-Type 'help' or '?' for help
-Ursula(0xe160672) >>>
-```
-
+```text
 ### 查看Ursula节点状态
-
-```
-Ursula(0xe160672) >>> status
-
-⇀URSULA ♄ ⛇↽
-(Ursula)⇀SlateGray Saturn Cyan Snowman↽ (0xe160672ef1afDc798F869F79d40E0AA963BfaC15)
-Uptime .............. 0:01:12
-Start Time .......... 1 minute ago
-Fleet State.......... c941129 ⇀Peru Crossbones↽ ☠
-Learning Status ..... Learning at 5s Intervals
-Learning Round ...... Round #16
-Operating Mode ...... Decentralized
-Rest Interface ...... 13.229.53.90:9151
-Node Storage Type ... Local
-Known Nodes ......... 15
-Work Orders ......... 0
-Current Teacher ..... (Ursula)⇀LightSlateGray Dharma PaleTurquoise Star↽ (0x7820aDA8554197e41Ff0FA54aF30BbB98c716765)
-Current Period ...... 18282
-Worker Address ...... 0x7B6BCC437e0D4B7f857E48364Ec098B2A53001f2
 ```
 
+Ursula\(0xe160672\) &gt;&gt;&gt; status
+
+⇀URSULA ♄ ⛇↽ \(Ursula\)⇀SlateGray Saturn Cyan Snowman↽ \(0xe160672ef1afDc798F869F79d40E0AA963BfaC15\) Uptime .............. 0:01:12 Start Time .......... 1 minute ago Fleet State.......... c941129 ⇀Peru Crossbones↽ ☠ Learning Status ..... Learning at 5s Intervals Learning Round ...... Round \#16 Operating Mode ...... Decentralized Rest Interface ...... 13.229.53.90:9151 Node Storage Type ... Local Known Nodes ......... 15 Work Orders ......... 0 Current Teacher ..... \(Ursula\)⇀LightSlateGray Dharma PaleTurquoise Star↽ \(0x7820aDA8554197e41Ff0FA54aF30BbB98c716765\) Current Period ...... 18282 Worker Address ...... 0x7B6BCC437e0D4B7f857E48364Ec098B2A53001f2
+
+```text
 ### 查看已知的Ursula节点地址
-
-```
-Ursula(0xe160672) >>> known_nodes
-
-Known Nodes (connected 15 / seen 17)
-Fleet State c941129 ⇀Peru Crossbones↽ ☠
-54.152.254.4:9151    | (Ursula)⇀DarkMagenta Diamond Red Mountain↽ (0xcC0678E51a8237b762c09d6548d2d07285609e98)
-54.169.230.89:9151   | (Ursula)⇀DarkViolet Hermes DodgerBlue Sharp↽ (0x250D36cbE375d104b4668a97303350A861A1491a)
-54.254.231.79:9151   | (Ursula)⇀Wheat Gear WhiteSmoke Taurus↽ (0xA37FBC68ab044F1D6ECB18ec58BF0855d8b0d750)
-95.217.4.43:9151     | (Ursula)⇀Khaki Virgo SlateBlue Leo↽ (0xA47f8D1Df610DC56DD523ec1Ac335392E0891B2c)
-198.199.95.24:9151   | (Ursula)⇀DarkGray Heart Cyan Fleur-de-lis↽ (0x8b5CE9324069cEe2FCbA3382C18506cf55d4dD82)
-104.248.133.94:9151  | (Ursula)⇀CadetBlue Key CadetBlue Rain↽ (0xd6C288d7494E425C6E436e907B0343e15440983C)
-198.199.94.71:9151   | (Ursula)⇀Brown Airplane MediumOrchid Flower↽ (0x9259109490b1EE912e453cF321E0e01cD06F47a7)
-128.0.51.144:9151    | (Ursula)⇀LightSlateGray Dharma PaleTurquoise Star↽ (0x7820aDA8554197e41Ff0FA54aF30BbB98c716765)
-15.164.214.68:9151   | (Ursula)⇀Aqua Jupiter Beige Key↽ (0x6dda3D258e21Abc37668E82aE543e8C77567F220)
-64.227.4.109:9151    | (Ursula)⇀AntiqueWhite Juno LawnGreen Bishop↽ (0xD9b6B55b005f1B23b45a9a4aC9669deFac6dAd67)
-206.81.17.135:9151   | (Ursula)⇀Crimson King Ivory Alembic↽ (0x2160DCf3EAE12e21DCC1b7294859d80Ba2065589)
-78.47.245.141:9151   | (Ursula)⇀Tan Flag LemonChiffon Virgo↽ (0x3B686e73F3c7D5E9e5F1fDFa4eF41Ca0e5E1f60A)
-129.211.56.4:9151    | (Ursula)⇀YellowGreen Taurus Turquoise Pawn↽ (0x9705dF28eA06a38ad6042e37C546a9F01c1BE056)
-128.0.51.143:9151    | (Ursula)⇀LightSkyBlue Queen OldLace Circle↽ (0xE78e5351857744e83fa85A17EE29657C574eEF36)
-51.38.237.243:9151   | (Ursula)⇀LightSeaGreen Crossbones MediumBlue Shield↽ (0x1Ef837917c26a2f9aa31652A36aa7EA5aF7582c8)
 ```
 
+Ursula\(0xe160672\) &gt;&gt;&gt; known\_nodes
+
+Known Nodes \(connected 15 / seen 17\) Fleet State c941129 ⇀Peru Crossbones↽ ☠ 54.152.254.4:9151 \| \(Ursula\)⇀DarkMagenta Diamond Red Mountain↽ \(0xcC0678E51a8237b762c09d6548d2d07285609e98\) 54.169.230.89:9151 \| \(Ursula\)⇀DarkViolet Hermes DodgerBlue Sharp↽ \(0x250D36cbE375d104b4668a97303350A861A1491a\) 54.254.231.79:9151 \| \(Ursula\)⇀Wheat Gear WhiteSmoke Taurus↽ \(0xA37FBC68ab044F1D6ECB18ec58BF0855d8b0d750\) 95.217.4.43:9151 \| \(Ursula\)⇀Khaki Virgo SlateBlue Leo↽ \(0xA47f8D1Df610DC56DD523ec1Ac335392E0891B2c\) 198.199.95.24:9151 \| \(Ursula\)⇀DarkGray Heart Cyan Fleur-de-lis↽ \(0x8b5CE9324069cEe2FCbA3382C18506cf55d4dD82\) 104.248.133.94:9151 \| \(Ursula\)⇀CadetBlue Key CadetBlue Rain↽ \(0xd6C288d7494E425C6E436e907B0343e15440983C\) 198.199.94.71:9151 \| \(Ursula\)⇀Brown Airplane MediumOrchid Flower↽ \(0x9259109490b1EE912e453cF321E0e01cD06F47a7\) 128.0.51.144:9151 \| \(Ursula\)⇀LightSlateGray Dharma PaleTurquoise Star↽ \(0x7820aDA8554197e41Ff0FA54aF30BbB98c716765\) 15.164.214.68:9151 \| \(Ursula\)⇀Aqua Jupiter Beige Key↽ \(0x6dda3D258e21Abc37668E82aE543e8C77567F220\) 64.227.4.109:9151 \| \(Ursula\)⇀AntiqueWhite Juno LawnGreen Bishop↽ \(0xD9b6B55b005f1B23b45a9a4aC9669deFac6dAd67\) 206.81.17.135:9151 \| \(Ursula\)⇀Crimson King Ivory Alembic↽ \(0x2160DCf3EAE12e21DCC1b7294859d80Ba2065589\) 78.47.245.141:9151 \| \(Ursula\)⇀Tan Flag LemonChiffon Virgo↽ \(0x3B686e73F3c7D5E9e5F1fDFa4eF41Ca0e5E1f60A\) 129.211.56.4:9151 \| \(Ursula\)⇀YellowGreen Taurus Turquoise Pawn↽ \(0x9705dF28eA06a38ad6042e37C546a9F01c1BE056\) 128.0.51.143:9151 \| \(Ursula\)⇀LightSkyBlue Queen OldLace Circle↽ \(0xE78e5351857744e83fa85A17EE29657C574eEF36\) 51.38.237.243:9151 \| \(Ursula\)⇀LightSeaGreen Crossbones MediumBlue Shield↽ \(0x1Ef837917c26a2f9aa31652A36aa7EA5aF7582c8\)
+
+```text
 还可以在线访问(把ip替换为你自己的):
 https://13.229.53.90:9151/status
 
 ![在线节点](/.gitbook/assets/nucypher/在线节点.png)
 
 ### 停止节点
-
-```
-Ursula(0xe160672) >>> stop
 ```
 
+Ursula\(0xe160672\) &gt;&gt;&gt; stop
+
+```text
 # 13.提交表单，获取测试网激励
 
 https://www.nucypher.com/incentivized-testnet/
@@ -462,23 +440,15 @@ nucypher status stakers --provider ~/.ethereum/goerli/geth.ipc --network cassand
 
 ## 
 nucypher worklock bid --network cassandra --provider ~/.ethereum/goerli/geth.ipc --poa
-
 ```
-Select index of account [0]: 4
-Selected 4: 0x6d2F414CA2B81811435F1769d38b43663e7c1213
-Enter bid amount in ETH: 6
-Reading Latest Chaindata...
-Enter password to unlock account 0x6d2F414CA2B81811435F1769d38b43663e7c1213:
 
-...
-Publishing WorkLock Bid...
-Current bid: 6 ETH | Available claim: 372673.67938246869210769 NU
-Note that available claim value may fluctuate until bidding closes and claims are finalized.
+Select index of account \[0\]: 4 Selected 4: 0x6d2F414CA2B81811435F1769d38b43663e7c1213 Enter bid amount in ETH: 6 Reading Latest Chaindata... Enter password to unlock account 0x6d2F414CA2B81811435F1769d38b43663e7c1213:
 
-OK | 0x59a11c797df40b848bbef6c57b692026e727ee2e5c2c37a2c4c3da8f7643cf4e (51207 gas)
-Block #2214635 | 0x273b19131ec9dbf49b632019f4c7082ed9a96d906f93d06f9a0ebcfc21f080fa
- See https://goerli.etherscan.io/tx/0x59a11c797df40b848bbef6c57b692026e727ee2e5c2c37a2c4c3da8f7643cf4e
-```
-nucypher worklock cancel-bid --network cassandra --provider ~/.ethereum/goerli/geth.ipc --poa 
+... Publishing WorkLock Bid... Current bid: 6 ETH \| Available claim: 372673.67938246869210769 NU Note that available claim value may fluctuate until bidding closes and claims are finalized.
+
+OK \| 0x59a11c797df40b848bbef6c57b692026e727ee2e5c2c37a2c4c3da8f7643cf4e \(51207 gas\) Block \#2214635 \| 0x273b19131ec9dbf49b632019f4c7082ed9a96d906f93d06f9a0ebcfc21f080fa See [https://goerli.etherscan.io/tx/0x59a11c797df40b848bbef6c57b692026e727ee2e5c2c37a2c4c3da8f7643cf4e](https://goerli.etherscan.io/tx/0x59a11c797df40b848bbef6c57b692026e727ee2e5c2c37a2c4c3da8f7643cf4e)
+
+\`\`\` nucypher worklock cancel-bid --network cassandra --provider ~/.ethereum/goerli/geth.ipc --poa
 
 nucypher worklock status --bidder-address 0x6d2F414CA2B81811435F1769d38b43663e7c1213 --network cassandra --provider ~/.ethereum/goerli/geth.ipc --poa
+
