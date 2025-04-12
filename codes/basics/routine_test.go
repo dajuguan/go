@@ -1,11 +1,29 @@
 package basics
 
 import (
+	"fmt"
 	"sync"
 	"testing"
 	"time"
 )
 
+func TestGoRoutineVar(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		time.Sleep(time.Millisecond * 10)
+		go func() {
+			fmt.Println(i)
+		}()
+	}
+
+	for i := 0; i < 3; i++ {
+		i := i
+		go func() {
+			println("true:", i)
+		}()
+	}
+	time.Sleep(time.Second)
+	// the go rountine will run after the above codes completes
+}
 func TestGoRoutine(t *testing.T) {
 	for i := 0; i < 3; i++ {
 		time.Sleep(time.Second)
