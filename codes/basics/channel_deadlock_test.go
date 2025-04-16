@@ -26,7 +26,7 @@ func TestChDeadlock(t *testing.T) {
 			time.Sleep(time.Millisecond * 10)
 			for j := 0; j < 5; j++ {
 				j := j
-				println("add fj:", j, "len ch:", len(ch))
+				println("add fj:", i, j, "len ch:", len(ch))
 				ch <- func() {
 					println("j:", j)
 				}
@@ -35,4 +35,19 @@ func TestChDeadlock(t *testing.T) {
 	}
 
 	close(ch)
+}
+
+func TestCh(t *testing.T) {
+	ch := make(chan int, 4)
+	for i := 0; i < 100; i++ {
+		i := i
+		go func() {
+			ch <- i
+		}()
+	}
+
+	for i := 0; i < 4; i++ {
+		j := <-ch
+		println("i:", j)
+	}
 }
