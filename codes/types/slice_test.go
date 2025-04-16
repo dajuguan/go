@@ -33,3 +33,16 @@ func TestSliceAppend(t *testing.T) {
 	// slice b is the same, so it'll throw error
 	// fmt.Println(b[:4])
 }
+
+func TestSliceAsStruct(t *testing.T) {
+	type S struct {
+		slice []int
+	}
+	s := []int{0, 0, 0}
+	a := S{slice: s}
+	fmt.Println("slice before:", s)
+	fmt.Println("struct after:", a)
+	s[0] = 5
+	fmt.Println("slice after:", s)
+	fmt.Println("struct after:", a)
+}
