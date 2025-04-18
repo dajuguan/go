@@ -41,7 +41,7 @@ func TestSliceAsStruct(t *testing.T) {
 	s := []int{0, 0, 0}
 	a := S{slice: s}
 	fmt.Println("slice before:", s)
-	fmt.Println("struct after:", a)
+	fmt.Println("struct before:", a)
 	s[0] = 5
 	fmt.Println("slice after:", s)
 	fmt.Println("struct after:", a)
