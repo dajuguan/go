@@ -1,4 +1,5 @@
 # go profiling
+no need to install flamegraph tool, because pprof has enshrined flamegraph web interface.
 ## add code
 ```
 	// 创建 profile 文件
@@ -24,3 +25,6 @@ go tool pprof -http=0.0.0.0:8080 cpu.prof
 # view trace
 go tool trace -http=0.0.0.0:8080 trace.out
 ```
+
+# Ref
+- https://eddycjy.gitbook.io/golang/di-9-ke-gong-ju/go-tool-pprof
