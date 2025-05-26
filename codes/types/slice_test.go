@@ -3,6 +3,7 @@ package types
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 func sliceAsArg(s []int) {
@@ -45,4 +46,19 @@ func TestSliceAsStruct(t *testing.T) {
 	s[0] = 5
 	fmt.Println("slice after:", s)
 	fmt.Println("struct after:", a)
+}
+
+func TestConcurrentWrite(t *testing.T) {
+	// a := make([]int, 5, 5)
+	a := make([]int, 5)
+	for i := 0; i < 5; i++ {
+		a[i] = i
+		i := i
+		go func() {
+			a[i] = i + 1
+		}()
+	}
+	time.Sleep(time.Millisecond * 10)
+	fmt.Println("a:", a)
+
 }
