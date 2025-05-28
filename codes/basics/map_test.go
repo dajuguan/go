@@ -20,3 +20,15 @@ func TestMapOveride(t *testing.T) {
 	vmp.val = 1
 	println(vmp.val, mp[0].val)
 }
+
+func TestStructWithMapInitalization(t *testing.T) {
+	type S struct {
+		M map[int]int
+	}
+
+	// map 不会自动初始化，
+	// s := S{}
+	s := S{map[int]int{}}
+	s.M[0] = 1
+	println(s.M[0])
+}
