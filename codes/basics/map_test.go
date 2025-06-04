@@ -43,4 +43,13 @@ func TestNestedMap(t *testing.T) {
 	fmt.Println("layer1 value:", a)
 	b := a[0]
 	fmt.Println("layer2 value:", b)
+
+	//
+	if a == nil {
+		a = map[int]int{}
+		m[0] = a
+	}
+	a[0] = 1
+	a[1] = 1
+	fmt.Println("m:", m, "a:", a)
 }
