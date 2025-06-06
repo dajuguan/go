@@ -18,3 +18,9 @@ func TestPointerChange(t *testing.T) {
 	fmt.Println(*a.p, *b.p)
 
 }
+
+func TestPointerByte(t *testing.T) {
+	var v []byte
+	fmt.Println(v == nil)
+
+}

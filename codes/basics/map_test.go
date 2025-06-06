@@ -2,6 +2,7 @@ package basics
 
 import (
 	"fmt"
+	"maps"
 	"testing"
 )
 
@@ -75,4 +76,12 @@ func TestMapScop(t *testing.T) {
 	b := A{}
 	b.val = a.val
 	fmt.Println(b)
+}
+
+// Map ShadowCopy will not change the cloned map when new kv is inserted.
+func TestMapClone(t *testing.T) {
+	a := map[int]int{1: 2}
+	b := maps.Clone(a)
+	b[2] = 3
+	fmt.Println(a, b)
 }
