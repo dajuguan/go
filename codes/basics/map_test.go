@@ -53,3 +53,26 @@ func TestNestedMap(t *testing.T) {
 	a[1] = 1
 	fmt.Println("m:", m, "a:", a)
 }
+
+var All = map[int]map[int]int{1: {}}
+
+type A struct {
+	val map[int]int
+}
+
+func setMap(a *A) {
+	b := All[1]
+	b[0] = 1
+	a.val = b
+}
+
+func TestMapScop(t *testing.T) {
+	var a = A{}
+	setMap(&a)
+	fmt.Println(a)
+	fmt.Println(All)
+
+	b := A{}
+	b.val = a.val
+	fmt.Println(b)
+}
