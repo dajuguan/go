@@ -17,3 +17,20 @@ type readerWithCache struct {
 	}
 }
 ```
+
+### geth中交易池相关逻辑
+```
+func (p *BlobPool) SubscribeTransactions
+
+// eth/handler.go 在产生新交易之后，会通过 p2p 网络广播出去
+func (h *handler) txBroadcastLoop() {
+	defer h.wg.Done()
+	for {
+		select {
+		case event := <-h.txsCh: // 这里监听新交易信息
+			h.BroadcastTransactions(event.Txs)
+		case <-h.txsSub.Err():
+			return
+		}
+	}
+```

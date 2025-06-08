@@ -3,6 +3,8 @@ package basics
 import (
 	"fmt"
 	"testing"
+
+	"github.com/ethereum/go-ethereum/common"
 )
 
 type PointerStruct struct {
@@ -22,5 +24,10 @@ func TestPointerChange(t *testing.T) {
 func TestPointerByte(t *testing.T) {
 	var v []byte
 	fmt.Println(v == nil)
+}
 
+func TestNilEqualBytes(t *testing.T) {
+	a := common.Hash{}
+	var b common.Hash
+	fmt.Println(a == b)
 }
