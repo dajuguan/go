@@ -8,9 +8,9 @@ import (
 	"runtime"
 	"strconv"
 
-	"github.com/dajuguan/go/blockchain"
-	"github.com/dajuguan/go/network"
-	"github.com/dajuguan/go/wallet"
+	"github.com/dajuguan/go/codes/blockchain"
+	"github.com/dajuguan/go/codes/network"
+	"github.com/dajuguan/go/codes/wallet"
 )
 
 type CommandLine struct {

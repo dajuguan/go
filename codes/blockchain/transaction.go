@@ -13,7 +13,7 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/dajuguan/go/wallet"
+	"github.com/dajuguan/go/codes/wallet"
 )
 
 type Transaction struct {
@@ -22,7 +22,7 @@ type Transaction struct {
 	Outputs []TxOutput
 }
 
-//Coinbase交易
+// Coinbase交易
 func CoinbaseTx(to, data string) *Transaction {
 	if data == "" {
 		randData := make([]byte, 24)
@@ -39,7 +39,7 @@ func CoinbaseTx(to, data string) *Transaction {
 	return &tx
 }
 
-//设置ID
+// 设置ID
 func (tx *Transaction) SetID() {
 	var encoded bytes.Buffer
 	var hash [32]byte
@@ -55,7 +55,7 @@ func (tx *Transaction) IsCoinbase() bool {
 	return len(tx.Outputs) == 1 && len(tx.Inputs[0].ID) == 0 && tx.Inputs[0].Out == -1
 }
 
-//map[hash]Transaction
+// map[hash]Transaction
 func (tx *Transaction) Sign(privKey ecdsa.PrivateKey, prevTXs map[string]Transaction) {
 	//coninbase不需要签名
 	if tx.IsCoinbase() {
@@ -82,7 +82,7 @@ func (tx *Transaction) Sign(privKey ecdsa.PrivateKey, prevTXs map[string]Transac
 	}
 }
 
-//实现深拷贝，防止变量被修改
+// 实现深拷贝，防止变量被修改
 func (tx *Transaction) TrimmedCopy() Transaction {
 	var inputs []TxInput
 	var outputs []TxOutput
@@ -193,7 +193,7 @@ func (tx Transaction) Serialize() []byte {
 	return encoded.Bytes()
 }
 
-//为什么要采用复制的方式？
+// 为什么要采用复制的方式？
 func (tx *Transaction) Hash() []byte {
 	var hash [32]byte
 	txCopy := *tx

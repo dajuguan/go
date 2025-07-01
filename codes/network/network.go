@@ -13,7 +13,7 @@ import (
 	"runtime"
 	"syscall"
 
-	"github.com/dajuguan/go/blockchain"
+	"github.com/dajuguan/go/codes/blockchain"
 	"github.com/vrecan/death"
 )
 
@@ -50,7 +50,7 @@ type GetData struct {
 	ID       []byte
 }
 
-//多个区块
+// 多个区块
 type Inv struct {
 	AddrFrom string
 	Type     string
@@ -62,7 +62,7 @@ type Tx struct {
 	Transaction []byte
 }
 
-//对于区块同步非常重要
+// 对于区块同步非常重要
 type Version struct {
 	Version    int
 	BestHeight int
@@ -178,7 +178,7 @@ func SendBlock(addr string, b *blockchain.Block) {
 	SendData(addr, req)
 }
 
-//添加节点并同步区块
+// 添加节点并同步区块
 func HandleAddr(req []byte) {
 	var buffer bytes.Buffer
 	var payload Addr
@@ -226,7 +226,7 @@ func HandleBlock(req []byte, chain *blockchain.BlockChain) {
 	}
 }
 
-//发送所有区块的Hash
+// 发送所有区块的Hash
 func HandleGetBlocks(req []byte, chain *blockchain.BlockChain) {
 	var buffer bytes.Buffer
 	var payload GetBlocks

@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/dajuguan/go/cli"
+	"github.com/dajuguan/go/codes/cli"
 )
 
 type test struct {
