@@ -62,3 +62,12 @@ func TestConcurrentWrite(t *testing.T) {
 	fmt.Println("a:", a)
 
 }
+
+type Log struct {
+	cmd int
+}
+
+func TestLenSlice(t *testing.T) {
+	var a []Log
+	fmt.Println("len(a):", len(a))
+}
