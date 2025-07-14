@@ -1,10 +1,11 @@
-package main
+package profiling
 
 import (
 	"log"
 	"os"
 	"runtime/pprof"
 	"runtime/trace"
+	"testing"
 	"time"
 )
 
@@ -29,7 +30,7 @@ func weirdFunction() {
 	time.Sleep(sleepTime)
 }
 
-func main() {
+func TestProfiling(t *testing.T) {
 	// 创建 profile 文件
 	f, _ := os.Create("cpu.prof")
 	if err := pprof.StartCPUProfile(f); err != nil {
