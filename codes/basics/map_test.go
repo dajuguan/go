@@ -85,3 +85,8 @@ func TestMapClone(t *testing.T) {
 	b[2] = 3
 	fmt.Println(a, b)
 }
+
+func TestArr(t *testing.T) {
+	a := []int{1, 2, 3, 4, 5}
+	fmt.Println(a[:4])
+}
