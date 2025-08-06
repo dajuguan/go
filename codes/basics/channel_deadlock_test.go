@@ -37,14 +37,16 @@ func TestChDeadlock(t *testing.T) {
 	close(ch)
 }
 
-func TestCh(t *testing.T) {
+func TestOrderdCh(t *testing.T) {
 	ch := make(chan int, 4)
-	for i := 0; i < 100; i++ {
-		i := i
-		go func() {
+	go func() {
+		for i := 0; i < 100; i++ {
+			i := i
+
 			ch <- i
-		}()
-	}
+
+		}
+	}()
 
 	for i := 0; i < 4; i++ {
 		j := <-ch
