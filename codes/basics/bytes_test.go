@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 )
 
 func TestBytes(t *testing.T) {
@@ -12,4 +13,18 @@ func TestBytes(t *testing.T) {
 	b := common.Hash{}
 	c := common.BytesToHash(a)
 	fmt.Println(c == b)
+}
+
+func TestBytesNil(t *testing.T) {
+	a := []byte{}
+	// false
+	fmt.Println(a == nil)
+
+	var b []byte
+	// true
+	fmt.Println(b == nil)
+	hashNil := crypto.Keccak256Hash(a)
+	hashNilBytes := crypto.Keccak256Hash(b)
+	// true
+	fmt.Println(hashNil.Hex(), hashNilBytes.Hex())
 }

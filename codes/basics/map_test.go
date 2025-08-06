@@ -12,8 +12,8 @@ type Value struct {
 
 func TestMapOveride(t *testing.T) {
 	m := map[int]Value{}
-	v := m[0]
-	println(v.val)
+	v, ok := m[0]
+	println(v.val, ok)
 	v.val = 1
 	// cannot override map value directly
 	println(v.val, m[0].val)
@@ -88,5 +88,28 @@ func TestMapClone(t *testing.T) {
 
 func TestArr(t *testing.T) {
 	a := []int{1, 2, 3, 4, 5}
-	fmt.Println(a[:4])
+	fmt.Println(a[len(a)-1:])
+}
+
+func TestRange(t *testing.T) {
+	a := make([]int, 5)
+	fmt.Println("a", a[:1])
+	for i := range a {
+		fmt.Println(i)
+	}
+}
+
+type HashNode struct {
+	partialKey []byte
+	children   [16][]byte
+	data       []byte
+}
+
+func TestInit(t *testing.T) {
+	a := HashNode{
+		partialKey: []byte{},
+	}
+	fmt.Println(len(a.children))
+	a.children[0] = []byte{1}
+	fmt.Println(a.children[0] == nil)
 }
