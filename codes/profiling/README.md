@@ -28,3 +28,13 @@ go tool trace -http=0.0.0.0:8080 trace.out
 
 # Ref
 - https://eddycjy.gitbook.io/golang/di-9-ke-gong-ju/go-tool-pprof
+
+
+## go routine scheduler
+https://github.com/ethstorage/zk-decoder/tree/main/golang/cmd/hash_bench
+tasktest -c 1 ./hash_bench -n 100000000 -r 100000 -t 1
+- 1和17的核，共用ALU，超线程
+- 1-16是真实核，其他的是共享相应的核心
+先用Go跑出计算性能，然后优化后是2-3倍
+- hyper threaded
+- 影响
