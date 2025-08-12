@@ -82,7 +82,7 @@ func TestMapScop(t *testing.T) {
 func TestMapClone(t *testing.T) {
 	a := map[int]int{1: 2}
 	b := maps.Clone(a)
-	b[2] = 3
+	b[1] = 3
 	fmt.Println(a, b)
 }
 
