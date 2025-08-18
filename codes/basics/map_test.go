@@ -113,3 +113,9 @@ func TestInit(t *testing.T) {
 	a.children[0] = []byte{1}
 	fmt.Println(a.children[0] == nil)
 }
+
+func TestMapNotExist(t *testing.T) {
+	m := map[int]string{}
+	v, ok := m[0]
+	fmt.Println(v == "", ok) // 0 false
+}
