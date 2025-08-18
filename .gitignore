@@ -18,5 +18,8 @@ tmp/
 *.prof
 *.svg
 
+## cgo out
+codes/basics/cgo/out/*
+
 # Dependency directories (remove the comment below to include it)
 # vendor/
