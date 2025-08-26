@@ -6,4 +6,5 @@ import (
 
 func TestCCallGoWithCgoHandle(t *testing.T) {
 	ExampleCallHandle()
+	ExampleCallStructHandle()
 }

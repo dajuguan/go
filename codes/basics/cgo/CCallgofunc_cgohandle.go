@@ -26,8 +26,23 @@ func MyCgoCallback(x C.int) {
 	fmt.Println("callback with", x)
 }
 
+type S struct {
+	val int
+}
+
+func (s *S) MyCgoCallback(x C.int) {
+	fmt.Println("callback with", x, "in struct with val", s.val)
+}
+
 func ExampleCallHandle() {
 	h := cgo.NewHandle(MyCgoCallback)
+	C.CallGoFunctionWithHandle(C.uintptr_t(h))
+	h.Delete() // Clean up the handle after use
+}
+
+func ExampleCallStructHandle() {
+	s := &S{val: 42}
+	h := cgo.NewHandle(s.MyCgoCallback)
 	C.CallGoFunctionWithHandle(C.uintptr_t(h))
 	h.Delete() // Clean up the handle after use
 }
