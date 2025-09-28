@@ -4,9 +4,22 @@
 
 在C中调用Go函数时，crosscall2解决gcc编译到6c编译之间的调用协议问题。cgocallback切换回goroutine栈。runtime.cgocallbackg中调用exitsyscall恢复Go的运行环境。
 
+## benchmake CGO
+```
+taskset -c 1 go test -run=^$ -bench BenchmarkCgoC github.com/dajuguan/go/codes/basics/cgo -v 
+
+BenchmarkCgoCCallGoOverhead             14120484                86.15 ns/op
+BenchmarkCgoCCallGoOverheadHandle        2772770               410.7 ns/op
+=BenchmarkCgoCall                        34297670                35.16 ns/op
+```
+
+- 创建Cgo handle的开销是320 ns
+- 通过Cgo handle从C调用Go的overhead是85ns
+- 通过Cgo, 从Go call C的overhead是~40ns
+
 ## benchmark
 ```
-go test -run=^$ -bench=. -v -tags=llvm20
+taskset -c 1 go test -run=^$ -bench=. -v -tags=llvm20
 
 BenchmarkGoSlicePassToCAndSetmem-28             15674406                74.87 ns/op
 BenchmarkCAllocAndSetmem-28                     23777948                52.18 ns/op

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"runtime/cgo"
 )
 
@@ -23,15 +22,18 @@ func go_callback_handle(handle C.uintptr_t, arg C.int) {
 }
 
 func MyCgoCallback(x C.int) {
-	fmt.Println("callback with", x)
+	// fmt.Println("callback with", x)
+	x = x + 1
 }
 
 type S struct {
-	val int
+	val    int
+	Handle cgo.Handle
 }
 
 func (s *S) MyCgoCallback(x C.int) {
-	fmt.Println("callback with", x, "in struct with val", s.val)
+	// fmt.Println("callback with", x, "in struct with val", s.val)
+	x += 1
 }
 
 func ExampleCallHandle() {
@@ -45,4 +47,15 @@ func ExampleCallStructHandle() {
 	h := cgo.NewHandle(s.MyCgoCallback)
 	C.CallGoFunctionWithHandle(C.uintptr_t(h))
 	h.Delete() // Clean up the handle after use
+}
+
+func NewSWithHandle() *S {
+	s := &S{val: 42}
+	h := cgo.NewHandle(s.MyCgoCallback)
+	s.Handle = h
+	return s
+}
+
+func (s *S) BenchmarkCallHandle() {
+	C.CallGoFunctionWithHandle(C.uintptr_t(s.Handle))
 }

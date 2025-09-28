@@ -47,7 +47,8 @@ func Random() {
 }
 
 func Add(a, b int) {
-	fmt.Println("Calling C.add from Go:", C.add(C.int(a), C.int(b)))
+	// fmt.Println("Calling C.add from Go:", C.add(C.int(a), C.int(b)))
+	C.add(C.int(a), C.int(b))
 }
 
 func Nop(a, b int) {
