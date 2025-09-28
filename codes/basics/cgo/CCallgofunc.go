@@ -10,7 +10,6 @@ static inline void CallGoFunction(int fnId) {
 import "C"
 
 import (
-	"fmt"
 	"sync"
 )
 
@@ -22,7 +21,7 @@ var fns = make(map[int]func(C.int))
 func go_callback(fnId C.int, arg C.int) {
 	fn := lookup(int(fnId))
 	fn(arg)
-	fmt.Printf("Call Go's fnId:%d done!\n", fnId)
+	// fmt.Printf("Call Go's fnId:%d done!\n", fnId)
 }
 
 func lookup(i int) func(C.int) {
@@ -42,8 +41,14 @@ func register(fn func(C.int)) int {
 	return index
 }
 
+func unregister(i int) {
+	mu.Lock()
+	defer mu.Unlock()
+	delete(fns, i)
+}
+
 func MyGoCallBack(arg C.int) {
-	fmt.Println("MyGoCallback called with arg:", arg)
+	// fmt.Println("MyGoCallback called with arg:", arg)
 }
 
 func ExampleCCallGo() {
@@ -52,5 +57,9 @@ func ExampleCCallGo() {
 	// Go code cannot pass a pointer from the Go heap (especially one that points to Go memory) to C and let C hold it for a long time.
 	// A Go function value (closure or function variable) is actually an object allocated by the Go runtime, which encapsulates the instruction address and its execution context. Therefore, Go cannot directly treat a function value as a pointer and pass it to C; otherwise, it would violate the pointer passing rule.
 
+	C.CallGoFunction(C.int(fnPtr))
+}
+
+func RegistryCallGoFunc(fnPtr int) {
 	C.CallGoFunction(C.int(fnPtr))
 }

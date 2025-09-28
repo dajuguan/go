@@ -11,8 +11,8 @@ func TestCCallGoWithCgoHandle(t *testing.T) {
 
 func BenchmarkCgoCCallGoOverhead(b *testing.B) {
 	s := NewSWithHandle()
-	b.ResetTimer()
 	defer s.Handle.Delete() // Clean up the handle after use
+	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
 		s.BenchmarkCallHandle()
@@ -22,5 +22,15 @@ func BenchmarkCgoCCallGoOverhead(b *testing.B) {
 func BenchmarkCgoCCallGoOverheadHandle(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		ExampleCallHandle()
+	}
+}
+
+func BenchmarkCgoCCallGoOverheadRegistryHandle(b *testing.B) {
+	fnPtr := register(MyGoCallBack)
+	defer unregister(fnPtr)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		RegistryCallGoFunc(fnPtr)
 	}
 }
