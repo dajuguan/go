@@ -25,12 +25,18 @@ func BenchmarkCgoCCallGoOverheadHandle(b *testing.B) {
 	}
 }
 
-func BenchmarkCgoCCallGoOverheadRegistryHandle(b *testing.B) {
+func BenchmarkCgoCCallGoOverheadRegistry(b *testing.B) {
 	fnPtr := register(MyGoCallBack)
 	defer unregister(fnPtr)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
 		RegistryCallGoFunc(fnPtr)
+	}
+}
+
+func BenchmarkCgoCCallGoOverheadRegistryHandle(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ExampleCCallGo()
 	}
 }

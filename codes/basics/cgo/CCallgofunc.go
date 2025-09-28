@@ -53,6 +53,7 @@ func MyGoCallBack(arg C.int) {
 
 func ExampleCCallGo() {
 	fnPtr := register(MyGoCallBack)
+	defer unregister(fnPtr)
 	// Can't directly pass MyGoCallBack to C because the pointer passing rules:
 	// Go code cannot pass a pointer from the Go heap (especially one that points to Go memory) to C and let C hold it for a long time.
 	// A Go function value (closure or function variable) is actually an object allocated by the Go runtime, which encapsulates the instruction address and its execution context. Therefore, Go cannot directly treat a function value as a pointer and pass it to C; otherwise, it would violate the pointer passing rule.

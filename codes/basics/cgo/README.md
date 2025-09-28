@@ -10,11 +10,12 @@ taskset -c 1 go test -run=^$ -bench BenchmarkCgoC github.com/dajuguan/go/codes/b
 
 BenchmarkCgoCCallGoOverhead                 14120484                86.15 ns/op  (Go=>c=>go, exclude handle (cgo type) init)
 BenchmarkCgoCCallGoOverheadHandle           2772770                 410.7 ns/op (Go=>c=>go, include handle (cgo type) init)
-BenchmarkCgoCCallGoOverheadRegistryHandle   13506428                88.21 ns/op (Go=>c=>go, include handle(registry type) init)
+BenchmarkCgoCCallGoOverheadRegistry         13506428                88.21 ns/op (Go=>c=>go, exclude handle(registry type) init)
+BenchmarkCgoCCallGoOverheadRegistryHandle   9940838                 119.7 ns/op (Go=>c=>go, include handle(registry type) init)
 BenchmarkCgoCall                           34297670                 35.16 ns/op
 ```
 
-- 创建Cgo handle的开销是320ns (410-86 = 314)
+- 创建Cgo handle的开销是320ns (410-86 = 314), 用registry创建handle的时间只需要30ns (119-88=31)
 - 通过Cgo handle从C调用Go的overhead是50ns （86-35 = 51）
 - 通过Cgo, 从Go call C的overhead是~40ns
 
