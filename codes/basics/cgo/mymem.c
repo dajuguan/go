@@ -31,6 +31,17 @@ void memory_set(Memory* m, size_t offset, size_t size, const uint8_t* value) {
     memcpy((uint8_t*)m->store.data + offset, value, size);
 }
 
+void memory_set2(Memory* m, size_t offset, size_t size) {
+    if (!m) return;
+    uint8_t value[1] = {42};
+    size_t end = offset + size;
+    printf("resize:\n");
+    if (end > m->store.len) {
+        memory_resize(m, end);
+    }
+    memcpy((uint8_t*)m->store.data + offset, value, size);
+}
+
 
 // Allocate a new Memory struct with initial capacity
 Memory* memory_new() {

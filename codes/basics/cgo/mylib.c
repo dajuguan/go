@@ -1,6 +1,7 @@
 /*
 gcc -c mylib.c -o mylib.o
-ar rcs mylib.a mylib.o 
+clang -shared -o mylib.so mylib.o
+ar rcs mylib.a mylib.o
 */
 
 #include <stdio.h>
