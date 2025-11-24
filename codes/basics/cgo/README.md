@@ -37,3 +37,4 @@ BenchmarkGoSlicePassToCAndLLVMFnptr-28         18215420                66.29 ns/
 ## References
 - https://go.dev/wiki/cgo
 - https://tiancaiamao.gitbooks.io/go-internals/content/zh/09.2.html
+- [cockroachlabs cgo over head](https://www.cockroachlabs.com/blog/the-cost-and-complexity-of-cgo/)
